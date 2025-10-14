@@ -270,6 +270,24 @@
                             <input type="text" name="edicao" class="form-control">
                         </p>
                         <p class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <select name="tipo_produto">
+                                <?php foreach($daoCategoria->read() as $categoria) : ?>
+                                    <option value="<?= $categoria->getId() ?>"><?= $categoria->getCategoria() ?></option>
+                                <?php endforeach ?>
+                            </select>
+
+                        </p>
+                         <p class="form-group">
+                            <label for="editora">Editora</label>
+                            <select name="editora">
+                                <?php foreach($daoEditora->read() as $editora) : ?>
+                                    <option value="<?= $editora->getId() ?>"><?= $editora->getEditora() ?></option>
+                                <?php endforeach ?>
+                            </select>
+
+                        </p>
+                        <p class="form-group">
                             <input type="reset" value="Limpar" class="btn btn-default">
                             <input type="submit" value="Salvar" class="btn btn-primary">
                         </p>

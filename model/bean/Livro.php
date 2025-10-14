@@ -5,6 +5,8 @@
         private $titulo;
         private $anoPublicacao;
         private $edicao;
+        private $categoria;
+        private $editora;
         
         // Métodos
          public function getId() {
@@ -37,6 +39,22 @@
 
         public function setEdicao($edicao) {
             $this->edicao = $edicao;
+        }
+
+        public function getCategoria() {
+            return $this->categoria;
+        }
+
+        public function setCategoria($categoria) {
+            $this->categoria = $categoria;
+        }
+
+         public function getEditora() {
+            return $this->editora;
+        }
+
+        public function setEditora($editora) {
+            $this->editora = $editora;
         }
 
         // Método para retornar uma string do objeto

@@ -270,6 +270,8 @@
                             <th>Título</th>
                             <th>Ano de Publicação</th>
                             <th>Edicao</th>
+                            <th>Tipo de Produto</th>
+                            <th>Ações</th>
                         </tr>
                         <?php foreach($dao->read() as $livro) : ?>
                             <tr>
@@ -277,6 +279,8 @@
                                 <td><?= $livro->getTitulo() ?></td>
                                 <td><?= $livro->getAnoPublicacao() ?></td>
                                 <td><?= $livro->getEdicao() ?></td>
+                                <td><?= $livro->getCategoria() ?></td>
+                                <td><?= $livro->getEditora() ?></td>
                                 <td>
                                     <a href="edit.php?id=<?= $livro->getId() ?>" title="Editar">
                                         <i class="bi bi-pencil"></i>
