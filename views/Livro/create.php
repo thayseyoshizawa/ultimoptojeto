@@ -1,3 +1,15 @@
+<?php
+    require "../../autoload.php";
+
+    $daoCategoria = new categoriaDAO();
+    $daoEditora = new editoraDAO();
+?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 
@@ -271,7 +283,7 @@
                         </p>
                         <p class="form-group">
                             <label for="categoria">Categoria</label>
-                            <select name="tipo_produto">
+                            <select name="tipo_produto" class="form-control">
                                 <?php foreach($daoCategoria->read() as $categoria) : ?>
                                     <option value="<?= $categoria->getId() ?>"><?= $categoria->getCategoria() ?></option>
                                 <?php endforeach ?>
@@ -280,9 +292,9 @@
                         </p>
                          <p class="form-group">
                             <label for="editora">Editora</label>
-                            <select name="editora">
+                            <select name="editora" class="form-control">
                                 <?php foreach($daoEditora->read() as $editora) : ?>
-                                    <option value="<?= $editora->getId() ?>"><?= $editora->getEditora() ?></option>
+                                    <option value="<?= $editora->getId() ?>"><?= $editora->getNome() ?></option>
                                 <?php endforeach ?>
                             </select>
 
