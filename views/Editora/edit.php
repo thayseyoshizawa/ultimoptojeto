@@ -273,6 +273,7 @@
                             <label for="endereco">Endereco</label>
                             <input type="text" name="endereco" class="form-control" value="<?= $editora->getEndereco() ?>">
                         </p>
+                        <input type="hidden" name="id" value="<?= $editora->getId() ?>">
                         <p class="form-group">
                             <input type="reset" value="Limpar" class="btn btn-default">
                             <input type="submit" value="Salvar" class="btn btn-primary">

@@ -273,6 +273,7 @@
                             <label for="nacionalidade">Nacionalidade</label>
                             <input type="text" name="nacionalidade" class="form-control" value="<?= $autor->getNacionalidade() ?>">
                         </p>
+                        <input type="hidden" name="id" value="<?= $autor->getId() ?>">
                         <p class="form-group">
                             <input type="reset" value="Limpar" class="btn btn-default">
                             <input type="submit" value="Salvar" class="btn btn-primary">

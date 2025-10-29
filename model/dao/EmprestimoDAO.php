@@ -2,9 +2,10 @@
 class EmprestimoDAO {
     public function create($emprestimo){
         try {
-            $query = BD::getConexao()->prepare("INSERT INTO emprestimo(dataEmprestimo, dataDevolucao) VALUES(:de,:dd)");
+            $query = BD::getConexao()->prepare("INSERT INTO emprestimo(dataEmprestimo, dataDevolucao, pessoa_idPessoa) VALUES(:de,:dd)");
             $query->bindValue(':de', $emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
             $query->bindValue(':dd', $emprestimo->getDataDevolucao(), PDO::PARAM_STR);
+            $query->bindValue(':p', $emprestimo->getPessoa()->getId(), PDO::PARAM_STR);
             if(!$query->execute())
                 print_r($query->errorInfo());
         
@@ -23,10 +24,15 @@ class EmprestimoDAO {
             
             $emprestimos = array();
             foreach($query->fetchAll(PDO::FETCH_ASSOC) as $linha){
+
+                $daoPessoa = new PessoaDAO();
+                $pessoa = $daoPessoa->find($linha['pessoa_idpessoa']);
+
                 $emprestimo = new Emprestimo();
-                $emprestimo->setId($linha['id_emprestimo']);
+                $emprestimo->setId($linha['idemprestimo']);
                 $emprestimo->setDataEmprestimo($linha['dataEmprestimo']);
                 $emprestimo->setDataDevolucao($linha['dataDevolucao']);
+                $emprestimo->setPessoa($pessoa);
 
                 array_push($emprestimos, $emprestimo);
             }
@@ -42,16 +48,22 @@ class EmprestimoDAO {
     
  public function find($id) {
         try {
-            $query = BD::getConexao()->prepare("SELECT * FROM emprestimo WHERE idEmprestimo = :i");
+            $query = BD::getConexao()->prepare("SELECT * FROM emprestimo WHERE idemprestimo = :i");
             $query->bindValue(':i',$id, PDO::PARAM_INT);
 
             if(!$query->execute())
                 print_r($query->errorInfo());
 
             $linha = $query->fetch(PDO::FETCH_ASSOC);
+
+            $daoPessoa = new PessoaDAO();
+            $pessoa = $daoPessoa->find($linha['pessoa_idpessoa']);
+
             $emprestimo = new Emprestimo();
-            $emprestimo->setId($linha['idEmprestimo']);
-            $emprestimo->setEmprestimo($linha['nome']);
+            $emprestimo->setId($linha['idemprestimo']);
+            $emprestimo->setDataEmprestimo($linha['dataemprestimo']); 
+            $emprestimo->setDataDevolucao($linha['datadevolucao']);
+            $emprestimo->setPessoa($pessoa);
 
 
             return $emprestimo;
@@ -65,12 +77,14 @@ class EmprestimoDAO {
         try {
             $query = BD::getConexao()->prepare(
                 "UPDATE emprestimo 
-                    SET emprestimo = :c, dataEmprestimo = :d, dataDevolucao = :e 
-                    WHERE idEmprestimo = :i"
+                     SET dataemprestimo = :de, datadevolucao = :dd, pessoa_idpessoa = :p
+                    WHERE idemprestimo = :i"
                 );
-            $query->bindValue(':c',$emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
-            $query->bindValue(':c',$emprestimo->getDataDevolucao(), PDO::PARAM_STR);
-            $query->bindValue(':i',$emprestimo->getId(), PDO::PARAM_INT);
+            $query->bindValue(':de', $emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
+            $query->bindValue(':dd', $emprestimo->getDataDevolucao(), PDO::PARAM_STR);
+            $query->bindValue(':p', $emprestimo->getPessoa()->getId(), PDO::PARAM_INT);
+            $query->bindValue(':i', $emprestimo->getId(), PDO::PARAM_INT);
+
 
             if(!$query->execute())
                 print_r($query->errorInfo());
@@ -84,7 +98,7 @@ class EmprestimoDAO {
         try {
             $query = BD::getConexao()->prepare(
                 "DELETE FROM emprestimo 
-                WHERE idEmprestimo = :i"
+                WHERE idemprestimo = :i"
                 );
             $query->bindValue(':i',$id, PDO::PARAM_INT);
 

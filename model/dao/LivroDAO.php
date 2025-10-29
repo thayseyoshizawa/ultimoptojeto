@@ -2,7 +2,7 @@
 class LivroDAO {
     public function create($livro){
         try {
-            $query = BD::getConexao()->prepare("INSERT INTO livro(titulo,anoPublicacao,edicao, idCategoria, idEditora) VALUES(:t,:a,:e, :c, :d)");
+            $query = BD::getConexao()->prepare("INSERT INTO livro(titulo,anoPublicacao,edicao, categoria_idCategoria, editora_idEditora) VALUES(:t,:a,:e, :c, :d)");
             $query->bindValue(':t', $livro->getTitulo(), PDO::PARAM_STR);
             $query->bindValue(':a', $livro->getAnoPublicacao(), PDO::PARAM_STR);
             $query->bindValue(':e', $livro->getEdicao(), PDO::PARAM_STR);
@@ -27,17 +27,16 @@ class LivroDAO {
             
             $livros = array();
             foreach($query->fetchAll(PDO::FETCH_ASSOC) as $linha){
-                $daoLivro = new CategoriaDAO();
-                $categoria = $dao->find($linha['idCategoria']);
-                $daoLivro = new EditoraDAO();
-                $editora = $dao->find($linha['idEditora']);
+                $daoCategoria = new CategoriaDAO();
+                $categoria = $daoCategoria->find($linha['categoria_idCategoria']);
+                $daoEditora = new EditoraDAO();
+                $editora = $daoEditora->find($linha['editora_idEditora']);
 
                 $livro = new Livro();
                 $livro->setId($linha['idLivro']);
                 $livro->setTitulo($linha['titulo']);
-                $livro->setAnoPublicacao($linha['anoPublicacao']);
+                $livro->setAnoPublicacao($linha['anopublicacao']);
                 $livro->setEdicao($linha['edicao']);
-
                 $livro->setCategoria($categoria);
                 $livro->setEditora($editora);
 
@@ -63,20 +62,19 @@ class LivroDAO {
 
             $linha = $query->fetch(PDO::FETCH_ASSOC);
 
-            $daoLivro = new editoraDAO();
-            $editora = $daoLivro->find($linha['idEditora']);
+            $daoEditora = new editoraDAO();
+            $editora = $daoEditora->find($linha['editora_idEditora']);
 
-            $daoLivro = new categoriaDAO();
-            $categoria = $daoLivro->find($linha['idCategoria']);
+            $daoCategoria = new categoriaDAO();
+            $categoria = $daoCategoria->find($linha['categoria_idCategoria']);
 
             $livro = new Livro();
             $livro->setId($linha['idLivro']);
             $livro->setTitulo($linha['titulo']);
-            $livro->setAnoPublicacao($linha['anoPublicacao']);
+            $livro->setAnoPublicacao($linha['anopublicacao']);
             $livro->setEdicao($linha['edicao']);
-
-            $produto->setEditora($editora);
-            $produto->setCategoria($categoria);
+            $livro->setEditora($editora);
+            $livro->setCategoria($categoria);
 
 
             return $livro;
@@ -90,15 +88,16 @@ class LivroDAO {
         try {
             $query = BD::getConexao()->prepare(
                 "UPDATE livro 
-                    SET titulo = :c, anoPublicacao = :d, edicao = :e, idEditora = :t, idCategoria = :v
+                    SET titulo = :c, anopublicacao = :d, edicao = :e, editora_idEditora = :t, categoria_idCategoria = :v
                     WHERE idLivro = :i"
                 );
             $query->bindValue(':c',$livro->getTitulo(), PDO::PARAM_STR);
             $query->bindValue(':d',$livro->getAnoPublicacao(), PDO::PARAM_STR);
             $query->bindValue(':e',$livro->getEdicao(), PDO::PARAM_STR);
 
-            $query->bindValue(':t',$livro->getEdicao(), PDO::PARAM_STR);
-            $query->bindValue(':v',$livro->getCategoria(), PDO::PARAM_STR);
+            $query->bindValue(':t', $livro->getEditora()->getId(), PDO::PARAM_INT); 
+            $query->bindValue(':v', $livro->getCategoria()->getId(), PDO::PARAM_INT);
+            
 
             $query->bindValue(':i',$livro->getId(), PDO::PARAM_INT);
 

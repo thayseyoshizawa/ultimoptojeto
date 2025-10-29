@@ -4,6 +4,7 @@
         private $id;
         private $dataEmprestimo;
         private $dataDevolucao;
+        private $pessoa;
 
         
         // Métodos
@@ -30,6 +31,15 @@
         public function setDataDevolucao($dataDevolucao) {
             $this->dataDevolucao = $dataDevolucao;
         }
+
+        public function getPessoa() {
+            return $this->pessoa;
+        }
+
+        public function setPessoa($pessoa) {
+            $this->pessoa = $pessoa;
+        }
+
 
         // Método para retornar uma string do objeto
         public function __toString() {

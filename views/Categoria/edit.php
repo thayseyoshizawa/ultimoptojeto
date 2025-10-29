@@ -269,6 +269,7 @@
                             <label for="categoria">Categoria</label>
                             <input type="text" name="categoria" class="form-control" value="<?= $categoria->getCategoria() ?>">
                         </p>
+                        <input type="hidden" name="id" value="<?= $categoria->getId() ?>">
                         <p class="form-group">
                             <input type="reset" value="Limpar" class="btn btn-default">
                             <input type="submit" value="Salvar" class="btn btn-primary">

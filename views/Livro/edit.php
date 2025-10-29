@@ -4,6 +4,9 @@
 
     $dao = new LivroDAO();
     $livro = $dao->find($_GET['id']);
+
+    $daoCategoria = new CategoriaDAO();
+    $daoEditora = new EditoraDAO();
 ?>
 
 <!DOCTYPE html>
@@ -277,6 +280,32 @@
                             <label for="edicao">Edicao</label>
                             <input type="text" name="edicao" class="form-control" value="<?= $livro->getEdicao() ?>">
                         </p>
+                        <p class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <select name="categoria" class="form-control">
+                                <?php foreach($daoCategoria->read() as $categoria) : ?>
+                                    <option value="<?= $categoria->getId() ?>" 
+                                        <?= $categoria->getId() == $livro->getCategoria()->getId() ? 'selected' : '' ?>>
+                                        <?= $categoria->getCategoria() ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+                        </p>
+    
+                        <p class="form-group">
+                            <label for="editora">Editora</label>
+                            <select name="editora" class="form-control">
+                                <?php foreach($daoEditora->read() as $editora) : ?>
+                                    <option value="<?= $editora->getId() ?>" 
+                                        <?= $editora->getId() == $livro->getEditora()->getId() ? 'selected' : '' ?>>
+                                        <?= $editora->getNome() ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+                        </p>
+                        
+                        </p>
+                        <input type="hidden" name="id" value="<?= $livro->getId() ?>">
                         <p class="form-group">
                             <input type="reset" value="Limpar" class="btn btn-default">
                             <input type="submit" value="Salvar" class="btn btn-primary">

@@ -283,7 +283,7 @@
                         </p>
                         <p class="form-group">
                             <label for="categoria">Categoria</label>
-                            <select name="tipo_produto" class="form-control">
+                            <select name="categoria" class="form-control">
                                 <?php foreach($daoCategoria->read() as $categoria) : ?>
                                     <option value="<?= $categoria->getId() ?>"><?= $categoria->getCategoria() ?></option>
                                 <?php endforeach ?>
