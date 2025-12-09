@@ -3,8 +3,8 @@
 
     // Construir o objeto do Fornecedor
     $emprestimo = new Emprestimo();
-    $emprestimo->setDataEmprestimo($_POST['dataEmprestimo']);
-    $emprestimo->setDataDevolucao($_POST['dataDevolucao']);
+    $emprestimo->setDataemprestimo($_POST['dataemprestimo']);
+    $emprestimo->setDatadevolucao($_POST['datadevolucao']);
 
     // Inserir no Banco de Dados
     $dao = new EmprestimoDAO();

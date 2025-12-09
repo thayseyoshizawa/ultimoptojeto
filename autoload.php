@@ -5,15 +5,18 @@
             return '' === $needle || false !== strpos($haystack, $needle);
         }
     }
-    
+
     spl_autoload_register(function ($class_name) {
+        // BASE PATH correto
+        $base_path = __DIR__ . '/';
+        
         if($class_name == "BD") {
-            require '../../model/' . $class_name . '.php';
+            require $base_path . 'model/' . $class_name . '.php';
         }
-        else if(str_contains($class_name,"DAO")) {
-            require '../../model/dao/' . $class_name . '.php';
+        else if(str_contains($class_name, "DAO")) {
+            require $base_path . 'model/dao/' . $class_name . '.php';
         }
         else {
-            require '../../model/bean/' . $class_name . '.php';
+            require $base_path . 'model/bean/' . $class_name . '.php';
         }
     });

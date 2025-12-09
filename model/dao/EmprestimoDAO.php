@@ -1,113 +1,114 @@
-<?php 
+<?php
 class EmprestimoDAO {
     public function create($emprestimo){
         try {
-            $query = BD::getConexao()->prepare("INSERT INTO emprestimo(dataEmprestimo, dataDevolucao, pessoa_idPessoa) VALUES(:de,:dd)");
-            $query->bindValue(':de', $emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
-            $query->bindValue(':dd', $emprestimo->getDataDevolucao(), PDO::PARAM_STR);
-            $query->bindValue(':p', $emprestimo->getPessoa()->getId(), PDO::PARAM_STR);
-            if(!$query->execute())
-                print_r($query->errorInfo());
-        
+            $query = BD::getConexao()->prepare(
+                "INSERT INTO emprestimo(dataemprestimo, datadevolucao, pessoa_idpessoa)
+                VALUES(:data_emp, :data_dev, :pessoa_id)"
+            );
+            $query->bindValue(':data_emp', $emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
+            $query->bindValue(':data_dev', $emprestimo->getDataDevolucao(), PDO::PARAM_STR);
+            $query->bindValue(':pessoa_id', $emprestimo->getPessoa()->getId(), PDO::PARAM_INT);
+            
+            return $query->execute();
         }
         catch(PDOException $e){
-            echo"Erro número 1: " . $e->getMessage();
+            echo "Erro ao criar empréstimo: " . $e->getMessage();
+            return false;
         }
     }
 
     public function read(){
-        
         try {
             $query = BD::getConexao()->prepare("SELECT * FROM emprestimo");
-            if(!$query->execute())
-                print_r($query->errorInfo());
+            $query->execute();
             
             $emprestimos = array();
-            foreach($query->fetchAll(PDO::FETCH_ASSOC) as $linha){
-
+            $resultados = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach($resultados as $linha){
+               
                 $daoPessoa = new PessoaDAO();
-                $pessoa = $daoPessoa->find($linha['pessoa_idpessoa']);
-
+                $pessoa = $daoPessoa->find($linha['pessoa_idpessoa']);  
+                
                 $emprestimo = new Emprestimo();
-                $emprestimo->setId($linha['idemprestimo']);
-                $emprestimo->setDataEmprestimo($linha['dataEmprestimo']);
-                $emprestimo->setDataDevolucao($linha['dataDevolucao']);
+                $emprestimo->setId($linha['idemprestimo']);           
+                $emprestimo->setDataEmprestimo($linha['dataemprestimo']); 
+                $emprestimo->setDataDevolucao($linha['datadevolucao']);   
                 $emprestimo->setPessoa($pessoa);
-
+                
                 array_push($emprestimos, $emprestimo);
             }
-
+            
             return $emprestimos;
         }
-
-
         catch(PDOException $e){
-            echo"Erro número 2: " . $e->getMessage();
+            echo "Erro ao ler empréstimos: " . $e->getMessage();
+            return array();
         }
     }
-    
- public function find($id) {
+
+    public function find($id) {
         try {
-            $query = BD::getConexao()->prepare("SELECT * FROM emprestimo WHERE idemprestimo = :i");
-            $query->bindValue(':i',$id, PDO::PARAM_INT);
-
-            if(!$query->execute())
-                print_r($query->errorInfo());
-
+            $query = BD::getConexao()->prepare("SELECT * FROM emprestimo WHERE idemprestimo = :id"); // ← MINÚSCULO
+            $query->bindValue(':id', $id, PDO::PARAM_INT);
+            $query->execute();
+            
             $linha = $query->fetch(PDO::FETCH_ASSOC);
-
+            
+            if(!$linha) return null;
+            
+            // Busca pessoa
             $daoPessoa = new PessoaDAO();
-            $pessoa = $daoPessoa->find($linha['pessoa_idpessoa']);
-
+            $pessoa = $daoPessoa->find($linha['pessoa_idpessoa']);  // ← MINÚSCULO
+            
+            // Cria objeto Emprestimo
             $emprestimo = new Emprestimo();
-            $emprestimo->setId($linha['idemprestimo']);
-            $emprestimo->setDataEmprestimo($linha['dataemprestimo']); 
-            $emprestimo->setDataDevolucao($linha['datadevolucao']);
+            $emprestimo->setId($linha['idemprestimo']);           // ← MINÚSCULO
+            $emprestimo->setDataEmprestimo($linha['dataemprestimo']); // ← MINÚSCULO
+            $emprestimo->setDataDevolucao($linha['datadevolucao']);   // ← MINÚSCULO
             $emprestimo->setPessoa($pessoa);
-
-
+            
             return $emprestimo;
-            }
-            catch(PDOException $e) {
-                echo "Erro #3: " . $e->getMessage();
-            }
         }
+        catch(PDOException $e) {
+            echo "Erro ao buscar empréstimo: " . $e->getMessage();
+            return null;
+        }
+    }
 
     public function update($emprestimo) {
         try {
             $query = BD::getConexao()->prepare(
                 "UPDATE emprestimo 
-                     SET dataemprestimo = :de, datadevolucao = :dd, pessoa_idpessoa = :p
-                    WHERE idemprestimo = :i"
-                );
-            $query->bindValue(':de', $emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
-            $query->bindValue(':dd', $emprestimo->getDataDevolucao(), PDO::PARAM_STR);
-            $query->bindValue(':p', $emprestimo->getPessoa()->getId(), PDO::PARAM_INT);
-            $query->bindValue(':i', $emprestimo->getId(), PDO::PARAM_INT);
-
-
-            if(!$query->execute())
-                print_r($query->errorInfo());
-            }
-            catch(PDOException $e) {
-                echo "Erro #4: " . $e->getMessage();
-            }
+                SET dataemprestimo = :data_emp,      // ← MINÚSCULO
+                    datadevolucao = :data_dev,       // ← MINÚSCULO
+                    pessoa_idpessoa = :pessoa_id     // ← MINÚSCULO
+                WHERE idemprestimo = :id"            // ← MINÚSCULO
+            );
+            
+            $query->bindValue(':data_emp', $emprestimo->getDataEmprestimo(), PDO::PARAM_STR);
+            $query->bindValue(':data_dev', $emprestimo->getDataDevolucao(), PDO::PARAM_STR);
+            $query->bindValue(':pessoa_id', $emprestimo->getPessoa()->getId(), PDO::PARAM_INT);
+            $query->bindValue(':id', $emprestimo->getId(), PDO::PARAM_INT);
+            
+            return $query->execute();
         }
+        catch(PDOException $e) {
+            echo "Erro ao atualizar empréstimo: " . $e->getMessage();
+            return false;
+        }
+    }
 
     public function destroy($id) {
         try {
-            $query = BD::getConexao()->prepare(
-                "DELETE FROM emprestimo 
-                WHERE idemprestimo = :i"
-                );
-            $query->bindValue(':i',$id, PDO::PARAM_INT);
-
-            if(!$query->execute())
-                print_r($query->errorInfo());
-            }
-            catch(PDOException $e) {
-                echo "Erro #5: " . $e->getMessage();
-            }
+            $query = BD::getConexao()->prepare("DELETE FROM emprestimo WHERE idemprestimo = :id"); 
+            $query->bindValue(':id', $id, PDO::PARAM_INT);
+            return $query->execute();
         }
-    
+        catch(PDOException $e) {
+            echo "Erro ao excluir empréstimo: " . $e->getMessage();
+            return false;
+        }
+    }
 }

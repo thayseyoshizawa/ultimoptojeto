@@ -1,48 +1,21 @@
 <?php
-    class Emprestimo {
-        // Atributos
-        private $id;
-        private $dataEmprestimo;
-        private $dataDevolucao;
-        private $pessoa;
+// models/bean/Emprestimo.php
 
-        
-        // Métodos
-         public function getId() {
-            return $this->id;
-        }
-
-        public function setId($id) {
-            $this->id = $id;
-        }
-        
-        public function getDataEmprestimo() {
-            return $this->dataEmprestimo;
-        }
-
-        public function setDataEmprestimo($dataEmprestimo) {
-            $this->dataEmprestimo = $dataEmprestimo;
-        }
-
-        public function getDataDevolucao() {
-            return $this->dataDevolucao;
-        }
-
-        public function setDataDevolucao($dataDevolucao) {
-            $this->dataDevolucao = $dataDevolucao;
-        }
-
-        public function getPessoa() {
-            return $this->pessoa;
-        }
-
-        public function setPessoa($pessoa) {
-            $this->pessoa = $pessoa;
-        }
-
-
-        // Método para retornar uma string do objeto
-        public function __toString() {
-            return $this->dataEmprestimo;
-        }
-    }
+class Emprestimo {  // ← REMOVE "Bean" do nome
+    private $id;
+    private $dataemprestimo;
+    private $datadevolucao;
+    private $pessoa;  // ← Objeto Pessoa, não ID
+    
+    // Getters (mude os nomes)
+    public function getId() { return $this->id; }
+    public function getDataemprestimo() { return $this->dataemprestimo; }
+    public function getDatadevolucao() { return $this->datadevolucao; }
+    public function getPessoa() { return $this->pessoa; }  // ← Retorna objeto
+    
+    // Setters
+    public function setId($id) { $this->id = $id; }
+    public function setDataemprestimo($dataemprestimo) { $this->dataemprestimo = $dataemprestimo; }
+    public function setDatadevolucao($datadevolucao) { $this->datadevolucao = $datadevolucao; }
+    public function setPessoa($pessoa) { $this->pessoa = $pessoa; }  // ← Recebe objeto
+}

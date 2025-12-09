@@ -40,8 +40,8 @@ class CategoriaDAO {
 
     public function find($id) {
         try {
-            $query = BD::getConexao()->prepare("SELECT * FROM categoria WHERE idCategoria = :i");
-            $query->bindValue(':i',$id, PDO::PARAM_INT);
+            $query = BD::getConexao()->prepare("SELECT * FROM categoria WHERE idCategoria = :id");
+            $query->bindValue(':id',$id, PDO::PARAM_INT);
 
             if(!$query->execute())
                 print_r($query->errorInfo());
