@@ -1,11 +1,10 @@
 <?php
-// views/Livro/index.php
-require_once __DIR__ . '/../../autoload.php';  // CORRIGIDO o caminho
+require_once __DIR__ . '/../../autoload.php';  
 
 $dao = new LivroDAO();
 $livros = $dao->read();
 ?>
-<!DOCTYPE html>  <!-- CORRIGIDO: estava </DOCTYPE html> -->
+<!DOCTYPE html>  
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +16,6 @@ $livros = $dao->read();
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Inclua sua sidebar aqui -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="my-4">
                     <h2>Livros</h2>

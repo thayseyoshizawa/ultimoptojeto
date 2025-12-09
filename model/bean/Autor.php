@@ -1,12 +1,9 @@
 <?php
-// models/AutorBean.php
-
 class Autor {
     private $id;
     private $nome;
     private $nacionalidade;
     
-    // Getters
     public function getId() { 
         return $this->id; 
     }
@@ -19,7 +16,6 @@ class Autor {
         return $this->nacionalidade; 
     }
     
-    // Setters
     public function setId($id) { 
         $this->idAutor = $id; 
     }

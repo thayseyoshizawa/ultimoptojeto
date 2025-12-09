@@ -1,8 +1,6 @@
 <?php
-// views/Livro/edit.php
 require_once '../../autoload.php';
 
-// Se tem POST, processa a atualização
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     
@@ -30,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Se não tem ID, volta
 if (!isset($_GET['id'])) {
     header('Location: index.php');
     exit;

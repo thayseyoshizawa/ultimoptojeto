@@ -4,7 +4,6 @@ class Categoria{
     private $id;
     private $categoria;
     
-    // Getters
     public function getId() { 
         return $this->id; 
     }
@@ -13,7 +12,6 @@ class Categoria{
         return $this->categoria; 
     }
     
-    // Setters
     public function setId($id) { 
         $this->id = $id; 
     }

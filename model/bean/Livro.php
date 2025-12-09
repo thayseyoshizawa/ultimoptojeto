@@ -7,7 +7,6 @@ class Livro {
     private $edicao;
     private $categoria;            
     private $editora;              
-    // Getters
     public function getId() { 
         return $this->id; 
     }
@@ -16,7 +15,7 @@ class Livro {
         return $this->titulo; 
     }
     
-    public function getAnoPublicacao() {  // ← camelCase
+    public function getAnoPublicacao() {  
         return $this->anoPublicacao; 
     }
     
@@ -24,15 +23,14 @@ class Livro {
         return $this->edicao; 
     }
     
-    public function getCategoria() {      // ← Retorna OBJETO
+    public function getCategoria() {     
         return $this->categoria; 
     }
     
-    public function getEditora() {        // ← Retorna OBJETO
+    public function getEditora() {       
         return $this->editora; 
     }
     
-    // Setters
     public function setId($id) { 
         $this->id = $id; 
     }

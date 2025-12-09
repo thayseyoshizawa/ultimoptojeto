@@ -1,9 +1,6 @@
 <?php
-// TOPO do arquivo - processamento
 require_once '../../autoload.php';
 
-// Se foi enviado formulário
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $emprestimo = new Emprestimo();
     $emprestimo->setDataemprestimo($_POST['dataemprestimo']);
     $emprestimo->setDatadevolucao($_POST['datadevolucao'] ?? null);
@@ -17,19 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: index.php');
         exit;
     }
-}
 
-// Buscar pessoas para o select
-$daoPessoa = new PessoaDAO();
-$pessoas = $daoPessoa->read();
+    $daoPessoa = new PessoaDAO();
+    $pessoas = $daoPessoa->read();
 ?>
 
-<!-- SEU HTML ATUAL (mantenha igual) -->
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="my-4">
         <h2>Cadastrar Empréstimo</h2>
-        <!-- MUDE APENAS ESTA LINHA: -->
-        <form method="POST"> <!-- Removeu action="insert.php" -->
+        <form method="POST"> 
             <p class="form-group">
                 <label for="dataemprestimo">Data Empréstimo</label>
                 <input type="date" name="dataemprestimo" class="form-control" required>

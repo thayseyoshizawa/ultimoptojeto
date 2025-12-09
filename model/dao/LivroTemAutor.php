@@ -76,37 +76,6 @@ class LivroTemAutorDAO {
         }
     }
     
-    // EXTRA: Método para buscar livros por autor (opcional)
-    public function readByAutor($idAutor) {
-        try {
-            $query = BD::getConexao()->prepare(
-                "SELECT * FROM livro_has_autor WHERE autor_idAutor = :autor_id"
-            );
-            $query->bindValue(':autor_id', $idAutor, PDO::PARAM_INT);                
-
-            if(!$query->execute())
-                print_r($query->errorInfo());
-
-            $livroTemAutores = array();
-            foreach($query->fetchAll(PDO::FETCH_ASSOC) as $linha) {
-                $daoLivro = new LivroDAO();
-                $livro = $daoLivro->find($linha['livro_idLivro']);
-                
-                $autor = new Autor();
-                $autor->setId($idAutor);
-                
-                $livroTemAutor = new LivroTemAutor();
-                $livroTemAutor->setLivro($livro);
-                $livroTemAutor->setAutor($autor);
-
-                array_push($livroTemAutores, $livroTemAutor);
-            }
-
-            return $livroTemAutores;
-        }
-        catch(PDOException $e) {
-            echo "Erro ao ler livros do autor: " . $e->getMessage();
-            return array();
-        }
-    }
+      
+    
 }

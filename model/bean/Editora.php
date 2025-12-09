@@ -1,12 +1,10 @@
 <?php
-// models/EditoraBean.php
 
 class Editora {
     private $id;
     private $nome;
     private $endereco;
     
-    // Getters
     public function getId() { 
         return $this->id; 
     }
@@ -19,7 +17,6 @@ class Editora {
         return $this->endereco; 
     }
     
-    // Setters
     public function setId($id) { 
         $this->id = $id; 
     }

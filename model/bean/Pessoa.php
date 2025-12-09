@@ -4,7 +4,6 @@ class Pessoa {
     private $id;
     private $nome;
     
-    // Getters
     public function getId() { 
         return $this->id; 
     }
@@ -13,7 +12,6 @@ class Pessoa {
         return $this->nome; 
     }
     
-    // Setters
     public function setId($id) { 
         $this->id = $id; 
     }

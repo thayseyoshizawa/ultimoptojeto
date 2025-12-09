@@ -1,5 +1,4 @@
 <?php
-    // Buscar as informações do fornecedor para atualizar
     require "../../autoload.php";
 
     $dao = new EditoraDAO();

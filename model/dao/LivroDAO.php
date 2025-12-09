@@ -26,9 +26,11 @@ class LivroDAO {
             
            $query->bindValue(':categoria_id', $livro->getCategoria()->getId(), PDO::PARAM_INT);
            $query->bindValue(':editora_id', $livro->getEditora()->getId(), PDO::PARAM_INT);
+
+            if(!$query->execute())
+            print_r($query->errorInfo());
         }
         catch(PDOException $e) {
-            // CORREÇÃO: Lance exceção em vez de apenas ecoar
             throw new Exception("Erro ao criar livro: " . $e->getMessage());
         }
     }
@@ -42,7 +44,6 @@ class LivroDAO {
             $resultados = $query->fetchAll(PDO::FETCH_ASSOC);
             
             foreach($resultados as $linha){
-                // CORREÇÃO: Use os nomes corretos das colunas
                 $daoCategoria = new CategoriaDAO();
                 $categoria = $daoCategoria->find($linha['categoria_idCategoria']);
                 
@@ -52,7 +53,7 @@ class LivroDAO {
                 $livro = new Livro();
                 $livro->setId($linha['idLivro']);
                 $livro->setTitulo($linha['titulo']);
-                $livro->setAnoPublicacao($linha['anopublicacao']); // Note: minúsculo
+                $livro->setAnoPublicacao($linha['anopublicacao']); 
                 $livro->setEdicao($linha['edicao']);
                 $livro->setCategoria($categoria);
                 $livro->setEditora($editora);
@@ -86,7 +87,7 @@ class LivroDAO {
             $livro = new Livro();
             $livro->setId($linha['idLivro']);
             $livro->setTitulo($linha['titulo']);
-            $livro->setAnoPublicacao($linha['anopublicacao']); // Note: minúsculo
+            $livro->setAnoPublicacao($linha['anopublicacao']); 
             $livro->setEdicao($linha['edicao']);
             $livro->setCategoria($categoria);
             $livro->setEditora($editora);

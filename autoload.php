@@ -7,7 +7,6 @@
     }
 
     spl_autoload_register(function ($class_name) {
-        // BASE PATH correto
         $base_path = __DIR__ . '/';
         
         if($class_name == "BD") {
